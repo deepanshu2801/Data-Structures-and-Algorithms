@@ -15,6 +15,26 @@ struct node
     }
 };
 
+// for traversal 
+
+void preorder(node* rootNode)
+{
+    if(rootNode == NULL) return ; 
+
+    cout<<rootNode->data ;
+    preorder(rootNode->left) ; 
+    preorder(rootNode->right) ; 
+}
+
+void postorder(node* rootNode)
+{
+    if(rootNode == NULL) return ; 
+
+    postorder(rootNode->left) ; 
+    postorder(rootNode->right) ; 
+    cout<<rootNode->data ;
+}
+
 void inorder(node* rootNode)
 {
     if(rootNode == NULL) return ; 
@@ -42,7 +62,7 @@ int main()
 
         
         // left child 
-        cout<<"Enter value of"<<temp->data<<"Left_child : " ; 
+        cout<<"Enter value of "<<temp->data<<" Left_child : " ; 
         cin>>left_child ; 
 
         if(left_child != -1)
@@ -53,7 +73,7 @@ int main()
 
         
         // Right child 
-        cout<<"Enter value of"<<temp->data<<" Right_child : " ; 
+        cout<<"Enter value of "<<temp->data<<" Right_child : " ; 
         cin>>right_child; 
 
         if(right_child != -1) 
@@ -63,4 +83,18 @@ int main()
         }
 
     }
+
+    cout<<"PreOrder : ";
+    preorder(root) ;
+    cout<<endl;
+
+    cout<<"PostOrder : ";
+    postorder(root) ;
+    cout<<endl;
+
+    cout<<"inOrder : ";
+    inorder(root) ;
+    cout<<endl;
+
+return 0 ; 
 }
