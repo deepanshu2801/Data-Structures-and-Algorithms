@@ -18,7 +18,6 @@ class BST
 {
 public:
     // for inserting the node
-
    node* insertNode(node* currentNode, int x)
     {
         if (currentNode == NULL)
@@ -39,10 +38,98 @@ public:
         return currentNode;
     }
 
+    // for deleting the node from the tree
+    node* deleteNode(node* root , int target)
+    {
+        // for searching the target 
+        
+        if(root == NULL) return ; // base condition when the targent element don't exits in the tree
+
+        else if( target < root->data ) 
+        {
+            root->left = deleteNode(root->left, target ) ; 
+            return root; 
+        }
+
+        else if( target > root->data ) 
+        {
+            root->right = deleteNode(root->right, target) ; 
+            return root ;
+        }
+
+        else 
+        {
+            // when we found the element now time to delete that node 
+
+            // if the node is a leaf node 
+
+                if(root->left == NULL && root->right) 
+                {
+                    delete root ; 
+                    return NULL ; 
+                }
+
+            // if the node has one child node
+
+                else if(root->right == NULL) // the node has left child  
+                {
+                    node* temp = root->left ; 
+                    delete root ; 
+                    return temp ; 
+                }
+
+                else if(root->left == NULL)
+                {
+                    node* temp = root->right ; 
+                    delete root ; 
+                    return temp ; 
+                }
+
+
+            // if the node has two child node
+
+                else
+                {
+                    // for finding the largest node in the left
+                        node* parent = root ; 
+                        node* child = root->left ; 
+
+                        while(child->right == NULL)
+                        {
+                            parent = child ; 
+                            child = child->right ; 
+                        }
+
+                    
+
+                    // if root != parent
+                        if(root != parent)
+                        {
+                            parent->right = child->left;
+                            child->left = root->left;
+                            child->right = root->right;
+                            delete root ;
+                            return child ;
+                        }
+
+                    // if root == parent    
+                        else
+                        {
+                            child->right = root->right ; 
+                            delete root;
+                            return child ;
+                        }
+
+                }
+        }
+    }
+
     //for searching 
     node* search(node* root , int target)
     {
-        if(root->data == target )
+        if(root == NULL ) return NULL ;
+        
+        else if(root->data == target )
         {
             cout<<target<<" is found at "<<root<<" address";
             return root;
@@ -52,7 +139,6 @@ public:
 
         else return search(root->right, target) ; 
 
-        return NULL ;
      }
 
 
