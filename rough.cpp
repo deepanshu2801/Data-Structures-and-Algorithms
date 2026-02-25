@@ -1,66 +1,85 @@
 #include <iostream>
-#include <queue>
-using namespace std ; 
+#include <vector>
+#include <algorithm>
+using namespace std ;
+// brutforce  approch 
 
-struct node
-{
-    int data ; 
-    node* left ; 
-    node* right ; 
+// vector<vector<int>> threeSum(vector<int>& nums) 
+// {
+//     vector<vector<int>> ans  = {};
+//     for(int i = 0 ; i < nums.size() ; i++ )
+//     {
+//         for(int j = i+1 ; j < nums.size() ; j++)
+//         {
+//             for(int k = j+1 ; k < nums.size() ; k++)
+//             {
+//                 int sum = nums[i]+ nums[j]+nums[k] ;
 
-    node( int value )
-    {
-        data = value ; 
-        left = right = NULL ; 
-    }
-}; 
+//                 if( sum == 0 ) 
+//                 {
+//                     ans = {nums[i], nums[j],nums[k]}
+//                 }
+               
+//             } 
 
-void inorder( node* root)
-{
-    if(root == NULL ) return ; 
+//             cout<<endl;
+//         }
 
-    inorder(root->left) ; 
-    cout<<root->data; 
-    inorder(root->right) ; 
-}
+//         cout<<endl;
+//     }
+//  return ans; 
+// }
 
-int main()
-{
-    int n, right_node , left_node ; 
-    cout<<"Enter the root node value : " ;
-    cin>>n; 
- 
-    queue<node*> q ; 
-    node* root = new node(n) ; 
-    q.push(root) ; 
 
-    while(!q.empty())
-    {
-        node* temp = q.front() ; 
-        q.pop() ; 
-
-        // for left child 
-        cout<<"Enter the value of left child node of "<<temp->data<<" : ";
-        cin>>left_node ;
-
-        if(left_node != -1 )
+ vector<vector<int>> threeSum(vector<int>& nums) {
+        
+          vector<vector<int>> ans = {} ; 
+        int i = 0 ;
+        while(i < nums.size())
         {
-            temp->left = new node(left_node) ; 
-            q.push(temp->left) ; 
-        }
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+            
+            int j = i+1 ; 
+            int k = nums.size() - 1 ;
 
+            while( j < k )
+            {
+                if(nums[i] + nums[j] + nums[k] == 0 ) 
+                {
+                    vector<int> sorted_array = {};
+                    if(nums[i] > nums[j] && nums[i] > nums[k])
+                    {
+                        sorted_array[2] = nums[i]
+                    }
+                    ans.push_back(sorted_array);
+                    j++;
+                }
 
-        //for right child 
-        cout<<"Enter the value of right childe node of "<<temp->data<<" : ";  
-        cin>>right_node ; 
+                else if(nums[i] + nums[j] + nums[k] < 0 )
+                {
+                    j++ ; 
+                }
 
-        if(right_node != -1 )
-        {
-            temp->right = new node(right_node) ; 
-            q.push(temp->right) ; 
-        }
+                else k-- ; 
+            }
+         i++ ;
+        } 
+    
+//     set<vector<int>> s(ans.begin(), ans.end());
+//     ans.assign(s.begin(), s.end());  
+    return ans;
     }
+    
 
-    inorder(root) ;
-
+    int main()
+{
+    vector<int> nums = {-1,0,1,2,-1,-4} ;
+    sort(nums.begin() , nums.end() );
+    vector<vector<int>> ans =  threeSum(nums) ;
+    for(int i = 0; i < ans.size(); i++) {
+      for(int j = 0; j < ans[i].size(); j++) {
+        cout << ans[i][j] << " ";
+    }
+    cout << endl;
+    }
 }
